@@ -218,19 +218,19 @@
           <h2>Get in Touch</h2>
           <p>Feel free to reach out or drop a message below</p>
         </div>
-       <form
-  action="https://formspree.io/f/xnnoebpg"
-  method="POST"
+      <form
+        action="https://formspree.io/f/xnnoebpg"
+        method="POST"
+        enctype="multipart/form-data"
 >
-  <label>
-    Your email:
-    <input type="email" name="email">
+    <label>
+      Your email:
+      <input type="email" name="email">
   </label>
   <label>
-    Your message:
-    <textarea name="message"></textarea>
+    Your file:
+    <input type="file" name="upload">
   </label>
-  <!-- your other form fields go here -->
   <button type="submit">Send</button>
 </form>
       </div>
@@ -266,6 +266,7 @@
   });
 </script>
 </html>
+
 
 
 
