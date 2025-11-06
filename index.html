@@ -213,30 +213,40 @@
 
 
     <section id="contact">
-      <div class="contact-card">
-        <div class="contact-header">
-          <h2>Get in Touch</h2>
-          <p>Feel free to reach out or drop a message below</p>
-        </div>
-      <form
-        action="https://formspree.io/f/xnnoebpg"
-        method="POST"
-        enctype="multipart/form-data"
->
-    <label>
-      Your email:
-      <input type="email" name="email">
-  </label>
-  <label>
-    Your file:
-    <input type="file" name="upload">
-  </label>
-  <button type="submit">Send</button>
-</form>
-      </div>
-    </section>
-  </main>
+  <div class="contact-card">
+    <div class="contact-header">
+      <h2>Get in Touch</h2>
+      <p>Feel free to reach out or drop a message below</p>
+    </div>
 
+    <!-- Contact Form -->
+    <form
+      id="contact-form"
+      action="https://formspree.io/f/xnnoebpg"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <label>
+        Your email:
+        <input type="email" name="email" required placeholder="Enter your email">
+      </label>
+
+      <label>
+        Your message:
+        <textarea name="message" rows="5" placeholder="Write your message here"></textarea>
+      </label>
+
+      <label>
+        Your file:
+        <input type="file" name="upload">
+      </label>
+
+      <button type="submit">Send</button>
+      <p id="form-status" style="color: green; display: none;"></p>
+    </form>
+     </div>
+    </section>
+    </main>
   <footer>
     <h3>Connect with me</h3>
     <div class="social-icons">
@@ -249,23 +259,43 @@
   <script src="script.js"></script>
 </body>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const carousel = document.getElementById('carousel');
-    const slideAmount = 200; // Adjust as needed
+  // Contact Form Submission with Success/Error Feedback
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
 
-    const slideLeftBtn = document.getElementById('slide-left');
-    const slideRightBtn = document.getElementById('slide-right');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
 
-    slideLeftBtn.addEventListener('click', () => {
-      carousel.scrollBy({ left: -slideAmount, behavior: 'smooth' });
-    });
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
 
-    slideRightBtn.addEventListener('click', () => {
-      carousel.scrollBy({ left: slideAmount, behavior: 'smooth' });
-    });
+      if (response.ok) {
+        status.style.display = 'block';
+        status.style.color = 'green';
+        status.textContent = "Message sent successfully!";
+        form.reset();
+      } else {
+        const data = await response.json();
+        status.style.display = 'block';
+        status.style.color = 'red';
+        status.textContent = data.errors ? data.errors.map(err => err.message).join(", ") : "Oops! Something went wrong.";
+      }
+    } catch (error) {
+      status.style.display = 'block';
+      status.style.color = 'red';
+      status.textContent = "Oops! Something went wrong.";
+    }
   });
 </script>
 </html>
+
 
 
 
